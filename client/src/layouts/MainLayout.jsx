@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Navbar from "../components/core/Navbar";
 import Footer from "../components/core/Footer";
-import Assistance from "../components/Assistance/Assistance";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import Askme from "../components/Askme/Askme";
 
 const MainLayout = ({ children }) => {
   const [showAssistance, setAssistance] = useState(true);
 
+  const location = useLocation();
   useEffect(() => {
     if (location.pathname === "/") {
       setAssistance(false);
@@ -22,7 +23,7 @@ const MainLayout = ({ children }) => {
         {/* Assistance */}
         {showAssistance && (
           <div className="col-span-3 bg-blue-100 relative border-l-[1px] border-gray-400">
-            <Assistance />
+            <Askme />
           </div>
         )}
       </div>
