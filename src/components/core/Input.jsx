@@ -5,7 +5,7 @@ const Input = () => {
     <div>
       <input
         type="text"
-        placeholder="Type here"
+        placeholder="ask codex...."
         className="input rounded-none w-full"
       />
     </div>

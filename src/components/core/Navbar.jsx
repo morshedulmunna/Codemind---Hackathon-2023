@@ -8,7 +8,6 @@ const Navbar = () => {
         <Link to="/">
           <p>Sorting Visualizer ||</p>
         </Link>
-
         <Link to="/sorting">
           <button>Sorting</button>
         </Link>
