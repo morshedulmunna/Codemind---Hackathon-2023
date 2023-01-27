@@ -9,8 +9,8 @@ const Home = () => {
         <img className="w-full  h-[100vh]" src={header} alt="" />
 
         <div className=" absolute top-[25%] translate-x-[50%] text-center right-[50%]  ">
-          <h1 className=" text-[40px] lg:text-[70px] min-w-[200px]  font-bold text-white">
-            Algorithm Visualizations
+          <h1 className=" text-[40px] lg:text-[70px] w-full  font-bold text-white">
+            CODE MIND SOLUTION
           </h1>
           <p className="mb-[110px]">
             Algorithm visualizations are graphical representations of the steps
