@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 import ChatStripe from "./utils/ChatStripe";
+import axios from "axios";
 
 const Askme = () => {
-  const [prompt, setPrompt] = useState("");
+  const [prompts, setPrompt] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(prompt);
+    const prompt = {
+      prompt: prompts,
+      temperature: 0.5,
+      max_tokens: 10,
+      stop: "Paris",
+      engine: "text-davinci-003",
+    };
 
-    const response = await fetch(
-      "https://api.openai.com/v1/engines/davinci/completions",
-      {
-        method: "POST",
+    axios
+      .post("https://api.openai.com/v1/engines/davinci/completions", prompt, {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer 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`,
         },
-        body: JSON.stringify({
-          prompt: prompt,
-        }),
-      }
-    );
-
-    console.log(response);
+      })
+      .then((response) => {
+        // handle the response data
+        const result = response.data.choices[0].text;
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     e.target.reset();
   };
