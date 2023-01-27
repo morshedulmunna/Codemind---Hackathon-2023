@@ -1,44 +1,52 @@
 import React, { useState } from "react";
-import ChatStripe from "./utils/ChatStripe";
-import axios from "axios";
 
 const Askme = () => {
   const [prompts, setPrompt] = useState("");
+  const [chatlog, setChatlog] = useState([
+    {
+      user: null,
+      message: prompts,
+    },
+  ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const prompt = {
-      prompt: prompts,
-      temperature: 0.5,
-      max_tokens: 10,
-      stop: "Paris",
-      engine: "text-davinci-003",
-    };
+    setChatlog([...chatlog, { user: "me", message: `${prompts}` }]);
+    setPrompt("");
 
-    axios
-      .post("https://api.openai.com/v1/engines/davinci/completions", prompt, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer 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`,
-        },
-      })
-      .then((response) => {
-        // handle the response data
-        const result = response.data.choices[0].text;
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const response = await fetch("http://localhost:5000", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: prompts,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data) {
+      return <div>loading...</div>;
+    }
+
+    setChatlog([...chatlog, { user: "gpt", message: `${data.data}` }]);
 
     e.target.reset();
   };
 
   return (
     <div className=" relative h-full ">
-      <div>
-        <ChatStripe />
+      <div className=" overflow-y-scroll ">
+        {chatlog.map((item, index) => (
+          <div key={index}>
+            <div className="bg-gray-700 space-x-4">
+              <span> {item.user} :</span>
+              <span>{item.message}</span>
+            </div>
+          </div>
+        ))}
       </div>
 
       <form onSubmit={handleSubmit} className=" absolute bottom-0 w-full ">
