@@ -27,7 +27,7 @@ const Rects = ({ rects }) => {
               key={index}
             >
               <div
-                className=" absolute bottom-0"
+                className=" absolute bottom-0 rounded-t-md"
                 style={{
                   height: rect.width,
                   width: 15,
