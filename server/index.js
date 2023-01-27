@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
-const app = express();
-const PORT = 5000;
-const key = "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";
+const PORT = 3080;
+const key = "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";
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
@@ -12,21 +12,30 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+const app = express();
+app.use(bodyParser.json());
 app.use(cors());
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+  res.send({ message: "Health Route Working" });
+});
 
 app.post("/", async (req, res) => {
-  const prompt = req.body.message;
+  const message = req.body;
+
+  console.log(typeof message.message);
 
   const response = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: `${prompt}`,
-    max_tokens: 200,
+    model: "text-davinci-002",
+    prompt: `${message.message}`,
+    max_tokens: 100,
     temperature: 0.5,
   });
 
   res.json({
-    data: response.data.choices[0].text,
+    message: response.data.choices[0].text,
+    // data: message,
   });
 });
 
