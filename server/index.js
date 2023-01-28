@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
 
-const PORT = 3080;
-const key = "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";
+dotenv.config();
+
+const PORT = process.env.PORT || 3080;
+const key = process.env.API_KEY;
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
